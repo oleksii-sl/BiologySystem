@@ -1,0 +1,40 @@
+<?xml version="1.0" ?> 
+<project name="BioSysem" default="war">
+    
+    <path id="classpath">
+        <fileset dir="lib" includes="servlet-api.jar"/>
+        <fileset dir="WebContent\WEB-INF\lib" includes="*.jar" />
+    </path>
+    
+	<target name="init" depends="clean">
+        <echo>Creating the build directory</echo>
+        <mkdir dir="BiologySys/WEB-INF/classes"/>
+        <mkdir dir="BiologySys/WEB-INF/lib"/>
+    </target>
+    
+	<target name="compile" depends="init">
+        <echo>Compile the source files</echo>
+        <javac srcdir="src" destdir="BiologySys/WEB-INF/classes">
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+	
+	<target name="war" depends="copy" >
+        <echo>Building the war file</echo>
+        <war destfile="war/BiologySys.war" webxml="WebContent/WEB-INF/web.xml">
+            <fileset dir="BiologySys"/>
+        </war>
+    </target>
+	
+    <target name="copy" depends="compile">
+        <copy todir="BiologySys">
+            <fileset dir="WebContent"/>
+        </copy>
+    </target>
+    
+	<target name="clean">
+		<delete dir="BiologySys" />
+		<delete dir="war" />
+	</target>
+	
+</project>
