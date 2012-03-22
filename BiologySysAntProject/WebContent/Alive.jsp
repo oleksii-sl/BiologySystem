@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" errorPage="Error.jsp"
     import="biosys.model.*" import="java.util.*" import="java.sql.SQLException" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,50 +15,51 @@
 </head>
 <body>
 <h2><a href="main" >Main</a></h2>
-<%!List<Alive> list;%>
+<%!%>
 <table id='rounded-corner' width=90%>
-    <%
-    	BiosystemDAO bioSystem = (BiosystemDAO)request.getAttribute("model");
-    	    Map<String, String[]> map = request.getParameterMap();   
-    	    String col;
-    	    if (map.containsKey("col") && !map.get("col")[0].isEmpty())
-    	            col = (String)request.getParameter("col");
-    	    else 
-    	        col = null;
-        
-    	    List<String> constr = new LinkedList<String>();
-    	    if (map.containsKey("nameSubstr") && !map.get("nameSubstr")[0].isEmpty()) {
-    	        
-    	        constr.add("substr: " + "name " + map.get("nameSubstr")[0]);
-    	    }
-    	    if (map.containsKey("nameLatinSubstr") && !map.get("nameLatinSubstr")[0].isEmpty()) {
-                
-                constr.add("substr: " + "name_latin " + map.get("nameLatinSubstr")[0]);
-            }
-    	    if (map.containsKey("lifespanMin") && map.containsKey("lifespanMax") && 
-    	            !map.get("lifespanMin")[0].isEmpty() && !map.get("lifespanMax")[0].isEmpty()) {
-    	        
-    	        constr.add("between: " + "lifespan " + map.get("lifespanMin")[0] + 
-    	                " " + map.get("lifespanMax")[0]);
-    	    }
-    	    if (map.containsKey("avgWeightMin") && map.containsKey("avgWeightMax") && 
-                    !map.get("avgWeightMin")[0].isEmpty() && !map.get("avgWeightMax")[0].isEmpty()) {
-                
-                constr.add("between: " + "avg_weight " + map.get("avgWeightMin")[0] + 
-                        " " + map.get("avgWeightMax")[0]);
-            }
-    	    if (map.containsKey("rangeSubstr") && !map.get("rangeSubstr")[0].isEmpty()) {
-                
-                constr.add("substr: " + "native_range " + map.get("rangeSubstr")[0]);
-            }
-    	    if (map.containsKey("populatationMin") && map.containsKey("populatationMax") && 
-                    !map.get("populatationMin")[0].isEmpty() && !map.get("populatationMax")[0].isEmpty()) {
-                
-                constr.add("between: " + "population " + map.get("populatationMin")[0] + 
-                        " " + map.get("populatationMax")[0]);
-            }
-    	    list = bioSystem.getAllAliveConstraint(col, constr);
-    %>
+<%
+    List<Alive> list;
+	BiosystemDAO bioSystem = (BiosystemDAO)request.getAttribute("model");
+	Map<String, String[]> map = request.getParameterMap();   
+	String col;
+	if (map.containsKey("col") && !map.get("col")[0].isEmpty())
+	        col = (String)request.getParameter("col");
+	else 
+	    col = null;
+	
+	List<String> constr = new LinkedList<String>();
+	if (map.containsKey("nameSubstr") && !map.get("nameSubstr")[0].isEmpty()) {
+	    
+	    constr.add("substr: " + "name " + map.get("nameSubstr")[0]);
+	}
+	if (map.containsKey("nameLatinSubstr") && !map.get("nameLatinSubstr")[0].isEmpty()) {
+	       
+	       constr.add("substr: " + "name_latin " + map.get("nameLatinSubstr")[0]);
+	}
+	if (map.containsKey("lifespanMin") && map.containsKey("lifespanMax") && 
+	        !map.get("lifespanMin")[0].isEmpty() && !map.get("lifespanMax")[0].isEmpty()) {
+	    
+	    constr.add("between: " + "lifespan " + map.get("lifespanMin")[0] + 
+	            " " + map.get("lifespanMax")[0]);
+	}
+	if (map.containsKey("avgWeightMin") && map.containsKey("avgWeightMax") && 
+	           !map.get("avgWeightMin")[0].isEmpty() && !map.get("avgWeightMax")[0].isEmpty()) {
+	       
+	       constr.add("between: " + "avg_weight " + map.get("avgWeightMin")[0] + 
+	               " " + map.get("avgWeightMax")[0]);
+	}
+	if (map.containsKey("rangeSubstr") && !map.get("rangeSubstr")[0].isEmpty()) {
+	       
+	       constr.add("substr: " + "native_range " + map.get("rangeSubstr")[0]);
+	}
+	if (map.containsKey("populatationMin") && map.containsKey("populatationMax") && 
+	           !map.get("populatationMin")[0].isEmpty() && !map.get("populatationMax")[0].isEmpty()) {
+	       
+	       constr.add("between: " + "population " + map.get("populatationMin")[0] + 
+	               " " + map.get("populatationMax")[0]);
+	}
+	pageContext.setAttribute("aliveList", bioSystem.getAllAliveConstraint(col, constr));
+%>
     <thead>
     <tr>
         <th scope='col' class='rounded-company'>Id<form></form></th>
@@ -131,31 +133,29 @@
         <td><button class='green-button'>Refresh!</button></td>
     </tr>
     </form>
-    <%
-    	for (Alive l : list) {
-    %>
+    <c:forEach items='${aliveList}' var="element">
         <tr>
-            <td><%= l.getId() %></td>
-            <td><a href=<%= "xmlalive?id=" + l.getId()%> > <%= l.getName() %></a></td>
-            <td><%= l.getNameLatin() %></td>
-            <td><%= l.getLifespan() %></td>
-            <td><%= l.getAvgWeight() %></td>
-            <td><%= l.getNativeRange()%></td>
-            <td><%= l.getPopulation() %></td>
-            <td><%= l.getBioClass() %></td>
+            <td>${element.id}</td>
+            <td><a href='xmlalive?id=${element.id }'>${element.name }</a></td>
+            <td>${element.nameLatin}</td>
+            <td>${element.lifespan }</td>
+            <td>${element.avgWeight }</td>
+            <td>${element.nativeRange }</td>
+            <td>${element.population }</td>
+            <td>${element.bioClass }</td>
             <td>
-            <form action='editliving' method='post'>    
-                <input type="hidden" name="id" value=<%= l.getId() %> />
+            <form action='editalive' method='post'> 
+                <input type="hidden" name="id" value='${element.id }' />
                 <button class='green-button'>Edit!</button>
             </form>
             <form action='handleUpdate' method='post'>  
-                <input type="hidden" name="id" value=<%= l.getId() %> />
+                <input type="hidden" name="id" value='${element.id }' />
                 <input type="hidden" name="action" value="deleteAliveAction" />
                 <button class='green-button'>Delete!</button>
             </form>
             </td>
         </tr>
-    <%} %>
+    </c:forEach>
     <tfoot>
         <tr>
             <td colspan="8" class="rounded-foot-left"><em>The above data were fictional and made up, please do not sue me</em></td>

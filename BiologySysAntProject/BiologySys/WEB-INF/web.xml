@@ -31,12 +31,12 @@
     <url-pattern>/classes</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>Edit living page</servlet-name>
+    <servlet-name>Edit alive page</servlet-name>
     <jsp-file>/EditLiving.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Edit living page</servlet-name>
-    <url-pattern>/editliving</url-pattern>
+    <servlet-name>Edit alive page</servlet-name>
+    <url-pattern>/editalive</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>Edit class page</servlet-name>

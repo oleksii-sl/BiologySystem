@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" 
-    import="biosys.model.*" import="java.util.*" %>
+    import="biosys.model.*" import="java.util.*" errorPage="Error.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,9 +15,9 @@
 </head>
 <body>
 <h2><a href="main" >Main</a></h2>
-<%!List<BioClass> list; %>
 <table id='rounded-corner' width=50%>
     <%  
+        List<BioClass> list;
         BiosystemDAO bioSystem = (BiosystemDAO)request.getAttribute("model");
         Map<String, String[]> map = request.getParameterMap();   
         String col;
@@ -36,7 +37,7 @@
             constr.add("between: " + "parent " + map.get("parentMin")[0] + 
                     " " + map.get("parentMax")[0]);
         }
-        list = bioSystem.getAllClassesConstraint(col, constr);
+        pageContext.setAttribute("classList", bioSystem.getAllClassesConstraint(col, constr));
     %>
     <thead>
     <tr>
@@ -71,24 +72,24 @@
         <td><button class='green-button'>Refresh!</button></td>
     </tr>
     </form>
-    <% for (BioClass l : list) { %>
+    <c:forEach items="${classList}" var="element">
         <tr>
-            <td><%= l.getId() %></td>
-            <td><a href=<%= "xmlclass?id=" + l.getId()%> ><%= l.getName() %></a></td>
-            <td><%= l.getParentId() %></td>
+            <td>${element.id}</td>
+            <td><a href='xmlclass?id=${element.id }'>${element.name }</a></td>
+            <td>${element.parentId}</td>
             <td>
             <form action='editclass' method='post'> 
-                <input type="hidden" name="id" value=<%= l.getId() %> />
+                <input type="hidden" name="id" value='${element.id }' />
                 <button class='green-button'>Edit!</button>
             </form>
             <form action='handleUpdate' method='post'>  
-                <input type="hidden" name="id" value=<%= l.getId() %> />
+                <input type="hidden" name="id" value='${element.id }' />
                 <input type="hidden" name="action" value="deleteClassAction" />
                 <button class='green-button'>Delete!</button>
             </form>
             </td>
         </tr>
-    <%} %>
+    </c:forEach>
     <tfoot>
         <tr>
             <td colspan="8" class="rounded-foot-left"><em>The above data were fictional and made up, please do not sue me</em></td>
