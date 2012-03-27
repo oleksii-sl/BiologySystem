@@ -15,51 +15,7 @@
 </head>
 <body>
 <h2><a href="main" >Main</a></h2>
-<%!%>
 <table id='rounded-corner' width=90%>
-<%
-    List<Alive> list;
-	BiosystemDAO bioSystem = (BiosystemDAO)request.getAttribute("model");
-	Map<String, String[]> map = request.getParameterMap();   
-	String col;
-	if (map.containsKey("col") && !map.get("col")[0].isEmpty())
-	        col = (String)request.getParameter("col");
-	else 
-	    col = null;
-	
-	List<String> constr = new LinkedList<String>();
-	if (map.containsKey("nameSubstr") && !map.get("nameSubstr")[0].isEmpty()) {
-	    
-	    constr.add("substr: " + "name " + map.get("nameSubstr")[0]);
-	}
-	if (map.containsKey("nameLatinSubstr") && !map.get("nameLatinSubstr")[0].isEmpty()) {
-	       
-	       constr.add("substr: " + "name_latin " + map.get("nameLatinSubstr")[0]);
-	}
-	if (map.containsKey("lifespanMin") && map.containsKey("lifespanMax") && 
-	        !map.get("lifespanMin")[0].isEmpty() && !map.get("lifespanMax")[0].isEmpty()) {
-	    
-	    constr.add("between: " + "lifespan " + map.get("lifespanMin")[0] + 
-	            " " + map.get("lifespanMax")[0]);
-	}
-	if (map.containsKey("avgWeightMin") && map.containsKey("avgWeightMax") && 
-	           !map.get("avgWeightMin")[0].isEmpty() && !map.get("avgWeightMax")[0].isEmpty()) {
-	       
-	       constr.add("between: " + "avg_weight " + map.get("avgWeightMin")[0] + 
-	               " " + map.get("avgWeightMax")[0]);
-	}
-	if (map.containsKey("rangeSubstr") && !map.get("rangeSubstr")[0].isEmpty()) {
-	       
-	       constr.add("substr: " + "native_range " + map.get("rangeSubstr")[0]);
-	}
-	if (map.containsKey("populatationMin") && map.containsKey("populatationMax") && 
-	           !map.get("populatationMin")[0].isEmpty() && !map.get("populatationMax")[0].isEmpty()) {
-	       
-	       constr.add("between: " + "population " + map.get("populatationMin")[0] + 
-	               " " + map.get("populatationMax")[0]);
-	}
-	pageContext.setAttribute("aliveList", bioSystem.getAllAliveConstraint(col, constr));
-%>
     <thead>
     <tr>
         <th scope='col' class='rounded-company'>Id<form></form></th>
@@ -73,39 +29,40 @@
         <th scope='col' class='rounded'></th>
     </tr>
     </thead>
-    <form action="alive" method="post" >
+    <form action="handleUpdate" method="post" >
+    <input type="hidden" name="action" value="getAliveAction" />
     <tr>
         
         <td></td>
         <td>
-            <input type="radio" name="col" onClick='this.form.submit()' value="name" />Ascending<br>
-            <input type="radio" name="col" onClick='this.form.submit()' value="name desc" />Descending
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="name" />Ascending<br>
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="name desc" />Descending
         </td>
         <td>
-            <input type="radio" name="col" onClick='this.form.submit()' value="name_latin" />Ascending<br>
-            <input type="radio" name="col" onClick='this.form.submit()' value="name_latin desc" />Descending
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="name_latin" />Ascending<br>
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="name_latin desc" />Descending
         </td>
         <td>
-            <input type="radio" name="col" onClick='this.form.submit()' value="lifespan" />Ascending<br>
-            <input type="radio" name="col" onClick='this.form.submit()' value="lifespan desc" />Descending
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="lifespan" />Ascending<br>
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="lifespan desc" />Descending
         </td>
         <td>
-            <input type="radio" name="col" onClick='this.form.submit()' value="avg_weight" />Ascending<br>
-            <input type="radio" name="col" onClick='this.form.submit()' value="avg_weight desc" />Descending
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="avg_weight" />Ascending<br>
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="avg_weight desc" />Descending
         </td>
         <td>
-            <input type="radio" name="col" onClick='this.form.submit()' value="native_range" />Ascending<br>
-            <input type="radio" name="col" onClick='this.form.submit()' value="native_range desc" />Descending
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="native_range" />Ascending<br>
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="native_range desc" />Descending
         </td>
         <td>
-            <input type="radio" name="col" onClick='this.form.submit()' value="population" />Ascending<br>
-            <input type="radio" name="col" onClick='this.form.submit()' value="population desc" />Descending
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="population" />Ascending<br>
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="population desc" />Descending
         </td>
         <td>
-            <input type="radio" name="col" onClick='this.form.submit()' value="class" />Ascending<br>
-            <input type="radio" name="col" onClick='this.form.submit()' value="class desc" />Descending
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="class" />Ascending<br>
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="class desc" />Descending
         </td>
-        <td><input type="hidden" name="col" value='${param.col }' /></td>
+        <td><input type="hidden" name="ordercol" value='${param.ordercol }' /></td>
         
     </tr>
     <tr>

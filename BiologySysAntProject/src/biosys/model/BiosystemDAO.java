@@ -29,7 +29,8 @@ public interface BiosystemDAO {
     
     List<BioClass> getAllClassesConstraint(String ordercol, List<String> constraints) throws SQLException;
     
-    List<BioClass> getClassesByLevel(int level) throws SQLException;
+    List<BioClass> getClassesHierarchy(int id) throws SQLException;
     
-    void close();
+    List<BioClass> getAllClassesHierarchy() throws SQLException;
+    
 }

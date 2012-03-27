@@ -12,33 +12,11 @@
 @import url("style.css");
 -->
 </style>
+<jsp:useBean id="classList" type="java.util.List<biosys.model.BioClass>" scope="session" />
 </head>
 <body>
 <h2><a href="main" >Main</a></h2>
 <table id='rounded-corner' width=50%>
-    <%  
-        List<BioClass> list;
-        BiosystemDAO bioSystem = (BiosystemDAO)request.getAttribute("model");
-        Map<String, String[]> map = request.getParameterMap();   
-        String col;
-        if (map.containsKey("col") && !map.get("col")[0].isEmpty())
-                col = (String)request.getParameter("col");
-        else 
-            col = null;
-        
-        List<String> constr = new LinkedList<String>();
-        if (map.containsKey("nameSubstr") && !map.get("nameSubstr")[0].isEmpty()) {
-            
-            constr.add("substr: " + "name " + map.get("nameSubstr")[0]);
-        }
-        if (map.containsKey("parentMin") && map.containsKey("parentMax") && 
-                !map.get("parentMin")[0].isEmpty() && !map.get("parentMax")[0].isEmpty()) {
-            
-            constr.add("between: " + "parent " + map.get("parentMin")[0] + 
-                    " " + map.get("parentMax")[0]);
-        }
-        pageContext.setAttribute("classList", bioSystem.getAllClassesConstraint(col, constr));
-    %>
     <thead>
     <tr>
         <th scope='col' class='rounded-company'>Id</th>
@@ -47,18 +25,19 @@
         <th scope='col' class='rounded'></th>
     </tr>
     </thead>
-    <form action="classes" method="post" >
+    <form action="handleUpdate" method="post" >
+    <input type="hidden" name="action" value="getClassesAction" />
     <tr>
         <td></td>
         <td>
-            <input type="radio" name="col" onClick='this.form.submit()' value="name" />Ascending<br>
-            <input type="radio" name="col" onClick='this.form.submit()' value="name desc" />Descending
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="name" />Ascending<br>
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="name desc" />Descending
         </td>
         <td>
-            <input type="radio" name="col" onClick='this.form.submit()' value="parent" />Ascending<br>
-            <input type="radio" name="col" onClick='this.form.submit()' value="parent desc" />Descending
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="parent" />Ascending<br>
+            <input type="radio" name="ordercol" onClick='this.form.submit()' value="parent desc" />Descending
         </td>
-        <td><input type="hidden" name="col" value='${param.col }' /></td>
+        <td><input type="hidden" name="ordercol" value='${param.col }' /></td>
     </tr>
     <tr>
         <td>Id</td>
@@ -72,19 +51,19 @@
         <td><button class='green-button'>Refresh!</button></td>
     </tr>
     </form>
-    <c:forEach items="${classList}" var="element">
+    <c:forEach items='${classList}' var='element'>
         <tr>
             <td>${element.id}</td>
             <td><a href='xmlclass?id=${element.id }'>${element.name }</a></td>
             <td>${element.parentId}</td>
             <td>
             <form action='editclass' method='post'> 
-                <input type="hidden" name="id" value='${element.id }' />
+                <input type='hidden' name='id' value='${element.id }' />
                 <button class='green-button'>Edit!</button>
             </form>
             <form action='handleUpdate' method='post'>  
-                <input type="hidden" name="id" value='${element.id }' />
-                <input type="hidden" name="action" value="deleteClassAction" />
+                <input type='hidden' name='id' value='${element.id }' />
+                <input type='hidden' name='action' value='deleteClassAction' />
                 <button class='green-button'>Delete!</button>
             </form>
             </td>

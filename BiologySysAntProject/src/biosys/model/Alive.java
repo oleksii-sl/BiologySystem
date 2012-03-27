@@ -1,6 +1,8 @@
 package biosys.model;
 
-public class Alive {
+import java.io.Serializable;
+
+public class Alive implements Serializable {
 
     private String name;
     private String nameLatin;

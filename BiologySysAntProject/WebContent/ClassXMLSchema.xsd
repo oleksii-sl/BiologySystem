@@ -5,7 +5,7 @@
 	    <xs:sequence>
 			<xs:element name="id" type="xs:nonNegativeInteger" />
 			<xs:element name="name" type="xs:string" />
-			<xs:element name="parent-id" type="xs:nonNegativeInteger" />
+			<xs:element name="parent" type="xs:nonNegativeInteger" />
 	    </xs:sequence>
 	</xs:complexType>
 </xs:schema>

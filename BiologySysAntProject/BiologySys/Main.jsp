@@ -7,10 +7,10 @@
 <title>Main</title>
 </head>
 <body>
-<h2><a href="alive" >Table with all alive</a></h2>
-<h2><a href="classes" >Table with all classes</a></h2>
-<h2><a href="addliving" >Form to add living</a></h2>
+<h2><a href="handleUpdate?action=getAliveAction" >Table with all alive</a></h2>
+<h2><a href="handleUpdate?action=getClassesAction" >Table with all classes</a></h2>
+<h2><a href="addalive" >Form to add living</a></h2>
 <h2><a href="addclass" >Form to add class</a></h2>
-<h2><a href="hierarchy" >Classes hierarchy</a></h2>
+<h2><a href="handleUpdate?action=getClassesHierarchyAction" >Classes hierarchy</a></h2>
 </body>
 </html>

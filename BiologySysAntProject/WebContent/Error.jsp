@@ -13,10 +13,11 @@
 <h3>Request that failed: ${pageContext.errorData.requestURI}</h3>
 <h3>Status code: ${pageContext.errorData.statusCode}</h3>
 <h3>Throwable: ${pageContext.errorData.throwable}</h3>
-<h3> Stack Trace: </h3>
+<h3>Throwable cause: ${pageContext.errorData.throwable.cause}</h3>
+<!--<h3> Stack Trace: </h3>-->
 <p style="font-family: 'Consolas'">
     <c:forEach items="${pageContext.exception.stackTrace}" var="element">
-        <c:out value="${element}" />
+        <!--<c:out value='${element}' />-->
     </c:forEach>
 </p>
 <h2><a href="main" >Main</a></h2>

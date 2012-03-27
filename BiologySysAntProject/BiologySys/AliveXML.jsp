@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="aliveStyle.xsl"?>
 <%-- Set the content type --%>
 <%@ page contentType="text/xml" %>
 <jsp:useBean id="model" type="biosys.model.BiosystemDAO" scope="request" />

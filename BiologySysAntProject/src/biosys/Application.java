@@ -1,6 +1,5 @@
 package biosys;
 
-import java.sql.Connection;
 import java.util.Locale;
 
 import javax.naming.Context;
@@ -21,8 +20,7 @@ public class Application implements ServletRequestListener {
             Locale.setDefault(Locale.ENGLISH);
             Context cont = (Context) new InitialContext().lookup("java:comp/env");
             DataSource ds = (DataSource) cont.lookup("connectInfo");
-            Connection conn = ds.getConnection();
-            BiosystemDAO dbc = new DBBiosystem(conn);
+            BiosystemDAO dbc = new DBBiosystem(ds);
             event.getServletRequest().setAttribute(MODEL, dbc);
         }
         catch (Exception e) {
@@ -32,7 +30,7 @@ public class Application implements ServletRequestListener {
     
     @Override
     public void requestDestroyed(ServletRequestEvent event) {
-        ((BiosystemDAO) event.getServletRequest().getAttribute(MODEL)).close();
+    	
     }
 
 }
