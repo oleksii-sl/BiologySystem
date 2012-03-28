@@ -1,0 +1,51 @@
+<?xml version="1.0" ?> 
+<project name="BiologySys" default="war">
+    
+    <property name="projectName" value="BiologySys"/>
+    <property name="src" location="src"/>
+    <property name="war" location="War"/>
+    <property name="webcontent"  location="WebContent"/>
+    <property name="lib"  location="lib"/>
+    
+    <path id="classpath">
+        <fileset dir="${lib}" includes="servlet-api.jar"/>
+        <fileset dir="${webcontent}\WEB-INF\lib" includes="*.jar" />
+    </path>
+    
+	<target name="init" depends="clean">
+        <echo>Creating the build directory</echo>
+        <mkdir dir="${projectName}/WEB-INF/classes"/>
+        <mkdir dir="${projectName}/WEB-INF/lib"/>
+    </target>
+    
+	<target name="compile" depends="init">
+        <echo>Compile the source files</echo>
+        <javac srcdir="${src}" destdir="${projectName}/WEB-INF/classes">
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+	
+	<target name="war" depends="copy" >
+        <echo>Building the war file</echo>
+        <war destfile="${war}/${projectName}.war" webxml="${webcontent}/WEB-INF/web.xml">
+            <fileset dir="${projectName}"/>
+        </war>
+    </target>
+    
+    <target name="copy" depends="compile">
+        <copy todir="${projectName}">
+            <fileset dir="${webcontent}"/>
+        </copy>
+    </target>
+    
+	<target name="clean">
+		<delete dir="${projectName}" />
+		<delete dir="${war}" />
+	</target>
+    
+    <description>
+        This buildfile is used to build the Foo subproject within 
+        the large, complex Bar project.
+    </description>
+	
+</project>
