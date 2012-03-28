@@ -254,7 +254,9 @@ public class DBBiosystem implements BiosystemDAO {
             pst.setInt(1, id);
             pst.executeUpdate();
         } finally {
-            closeAll(conn, pst, null);
+            closeAll(conn, pst, checkRs);
+            if (checkSt != null)
+                checkSt.close();
         }
         
     }

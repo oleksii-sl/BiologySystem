@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +18,7 @@ public class GetClassesAction implements Action {
 
     @Override
     public void perform(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+            throws SQLException, IOException, ServletException {
         
         
         BiosystemDAO bioSystem = (BiosystemDAO)request.getAttribute("model");
@@ -46,8 +48,9 @@ public class GetClassesAction implements Action {
         } else {
             classList = bioSystem.getAllClassesConstraint(ordercol, constraints);
         }
-        request.getSession().setAttribute("classList", classList);
-        response.sendRedirect("classes");
+        request.setAttribute("classList", classList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("classes");
+        dispatcher.forward(request, response);
     }
 
 }

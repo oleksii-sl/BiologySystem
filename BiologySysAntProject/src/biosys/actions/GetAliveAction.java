@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +18,7 @@ public class GetAliveAction implements Action {
 
     @Override
     public void perform(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+            throws SQLException, IOException, ServletException {
         
         BiosystemDAO bioSystem = (BiosystemDAO)request.getAttribute("model");
         Map<String, String[]> map = request.getParameterMap();   
@@ -64,8 +66,9 @@ public class GetAliveAction implements Action {
         } else {
             aliveList = bioSystem.getAllAliveConstraint(ordercol, constraints);
         }
-        request.getSession().setAttribute("aliveList", aliveList);
-        response.sendRedirect("alive");
+        request.setAttribute("aliveList", aliveList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("alive");
+        dispatcher.forward(request, response);
     }
 
 }

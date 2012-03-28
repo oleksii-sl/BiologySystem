@@ -1,8 +1,6 @@
 package biosys.model;
 
-import java.io.Serializable;
-
-public class BioClass implements Serializable {
+public class BioClass {
     
     private String name;
     private String parentId;
