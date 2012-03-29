@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,7 +16,7 @@ public class GetClassesHierarchyAction implements Action {
 
     @Override
     public void perform(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+            throws SQLException, IOException, ServletException {
          
         BiosystemDAO bioSystem = (BiosystemDAO)request.getAttribute("model");
         List<BioClass> hierarchyList;
@@ -25,8 +27,9 @@ public class GetClassesHierarchyAction implements Action {
         } else {
             hierarchyList = bioSystem.getClassesHierarchy(Integer.parseInt(id));
         }
-        request.getSession().setAttribute("classesHierarchy", hierarchyList);
-        response.sendRedirect("hierarchy");
+        request.setAttribute("classesHierarchy", hierarchyList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("hierarchy");
+        dispatcher.forward(request, response);
     }
 
 }

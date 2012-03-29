@@ -59,7 +59,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>Add alive page</servlet-name>
-    <jsp-file>/AddLiving.jsp</jsp-file>
+    <jsp-file>/AddAlive.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>Add alive page</servlet-name>

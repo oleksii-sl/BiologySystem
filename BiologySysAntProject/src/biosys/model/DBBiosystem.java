@@ -45,7 +45,7 @@ public class DBBiosystem implements BiosystemDAO {
                                                     "CONNECT BY PRIOR id = parent";
     
     private static final String SQL_CHECK_CHILDREN = "SELECT class FROM living_entity " +
-                                        "WHERE class IN(SELECT id FROM classification)";
+                                        "WHERE class = ?";
     
     private static final String REG_EXP_SUBSTRING = "substr: (\\w|-|_)+ (\\w|-|_)+";
     
@@ -243,11 +243,12 @@ public class DBBiosystem implements BiosystemDAO {
     public void removeBioClass(int id) throws SQLException {
         Connection conn = ds.getConnection();
         PreparedStatement pst = null;
-        Statement checkSt = null;
+        PreparedStatement checkSt = null;
         ResultSet checkRs = null;
         try {
-            checkSt = conn.createStatement();
-            checkRs = checkSt.executeQuery(SQL_CHECK_CHILDREN);
+            checkSt = conn.prepareStatement(SQL_CHECK_CHILDREN);
+            checkSt.setInt(1, id);
+            checkRs = checkSt.executeQuery();
             if (checkRs.next())
                 throw new ParentClassDeleteException(EXCEPTION_PARENT_CLASS_DELETE);
             pst = conn.prepareStatement(SQL_DELETE_CLASS);

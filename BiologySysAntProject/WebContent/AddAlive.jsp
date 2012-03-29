@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 <body>
-<jsp:useBean id="model" type="biosys.model.DBBiosystem" scope="request"/>
 <!-- start header -->
 <div id="header">
     <div id="menu">
@@ -17,22 +16,23 @@
             <li><a href="main">Main Page</a></li>
             <li><a href="handleUpdate?action=getAliveAction">Alive Page</a></li>
             <li><a href="handleUpdate?action=getClassesAction">Classes Page</a></li>
-            <li><a href="addalive">Add Alive Page</a></li>
+            <li class="current_page_item"><a href="#">Add Alive Page</a></li>
             <li><a href="addclass">Add Class Page</a></li>
             <li><a href="handleUpdate?action=getClassesHierarchyAction">Classes hierarchy Page</a></li>
         </ul>
     </div>
 </div>
 <div id="logo">
-    <h2>Edit alive attributes and push Update</h2>
+    <h2>Fill living attributes form</h2>
 </div>
 <!-- end header -->
 <hr />
 <!-- start page -->
 <div id="page">
+    <!-- start content -->
+        <!-- table -->
 	<form action='handleUpdate' method='post'>
 	<table id='rounded-corner' width=40%>
-		<%  pageContext.setAttribute("alive", model.getAlive(Integer.parseInt(request.getParameter("id")))); %>
 		<thead>
 		<tr>
 			<th scope='col' class='rounded-company' colspan = 2></th>
@@ -40,47 +40,48 @@
 		</thead>
 		<tr>
 			<td>Name</td>
-			<td><input type='text' name='name' value='${alive.name }' /></td>
+			<td><input type='text' name='name' /></td>
 		</tr>
 		<tr>
 			<td>Name latin</td>
-			<td><input type='text' name='nameLatin' value='${alive.nameLatin }' /></td>
+			<td><input type='text' name='nameLatin' /></td>
 		</tr>
 		<tr>
 			<td>Lifespan</td>
-			<td><input type='text' name='lifespan' value='${alive.lifespan }' /></td>
+			<td><input type='text' name='lifespan'  /></td>
 		</tr>
 		<tr>
 			<td>Average weight (kg)</td>
-			<td><input type='text' name='avgWeight' value='${alive.avgWeight }' /></td>
+			<td><input type='text' name='avgWeight' /></td>
 		</tr>
 		<tr>
 			<td>Native range</td>
-			<td><input type='text' name='nativeRange' value='${alive.nativeRange }' /></td>
+			<td><input type='text' name='nativeRange' /></td>
 		</tr>
 		<tr>
 			<td>Population</td>
-			<td><input type='text' name='population' value='${alive.population}' /></td>
+			<td><input type='text' name='population' /></td>
 		</tr>
 		<tr>
 			<td>Biological class id</td>
-			<td><input type='text' name='bioClass' value='${alive.bioClass }' /></td>
+			<td><input type='text' name='bioClass' /></td>
 		</tr>
 		<tr>
-		    <td colspan=2>
-		      <input type='hidden' name='id' value = '${param.id }' />
-		      <input type='hidden' name='action' value="updateAliveAction" />
-		      <button class="green-button">Update</button>
-		    </td>
+		  <td colspan=2>
+		      <input type='hidden' name='action' value="addAliveAction" />
+              <button class="green-button">Add</button>
+          </td>
 		</tr>
 	</table>
 	</form>
+<!-- end table -->
 </div>
+<!-- end page -->
 <hr />
 <!-- start footer -->
 <div id="footer">
     <p>&copy;2007 All Rights Reserved. &nbsp;&bull;&nbsp; Designed by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a>.</p>
 </div>
-<!-- end footer --> 
+<!-- end footer -->
 </body>
 </html>
