@@ -31,29 +31,29 @@
 <div id="page">
     <!-- start content -->
         <!-- table -->
-	<form action='handleUpdate' method='post'>
-	<table id='rounded-corner' width=40%>
-		<thead>
-		<tr>
-			<th scope='col' class='rounded-company' colspan = 2></th>
-		</tr>
-		</thead>
-		<tr>
-			<td>Name</td>
-			<td><input type='text' name='name' /></td>
-		</tr>
-		<tr>
-			<td>Parent id</td>
-			<td><input type='text' name='parentId' /></td>
-		</tr>
-		<tr>
-		<td colspan=2>
+    <form action='handleUpdate' method='post'>
+    <table id='rounded-corner' width=40%>
+        <thead>
+        <tr>
+            <th scope='col' class='rounded-company' colspan = 2></th>
+        </tr>
+        </thead>
+        <tr>
+            <td>Name</td>
+            <td><input type='text' name='name' /></td>
+        </tr>
+        <tr>
+            <td>Parent id</td>
+            <td><input type='text' name='parentId' /></td>
+        </tr>
+        <tr>
+        <td colspan=2>
             <input type='hidden' name='action' value="addClassAction" />
             <button class="green-button">Add</button>
         </td>
-		</tr>
-	</table>
-	</form>
+        </tr>
+    </table>
+    </form>
 <!-- end table -->
 </div>
 <!-- end page -->

@@ -29,6 +29,8 @@ public class Application implements ServletRequestListener {
     }
     
     @Override
-    public void requestDestroyed(ServletRequestEvent event) { }
+    public void requestDestroyed(ServletRequestEvent event) {
+    
+    }
 
 }

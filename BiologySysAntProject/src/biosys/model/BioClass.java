@@ -3,7 +3,7 @@ package biosys.model;
 public class BioClass {
     
     private String name;
-    private String parentId;
+    private Integer parentId;
     private int id;
     
     public int getId() {
@@ -22,11 +22,11 @@ public class BioClass {
         this.name = name;
     }
 
-    public String getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
     

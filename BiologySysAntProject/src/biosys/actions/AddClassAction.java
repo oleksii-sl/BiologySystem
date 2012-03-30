@@ -21,7 +21,11 @@ public class AddClassAction implements Action {
         Map<String, String[]> map = request.getParameterMap();
         BioClass bioClass = new BioClass();
         bioClass.setName(map.get("name")[0]);
-        bioClass.setParentId(map.get("parentId")[0]);
+        String s;
+        if (!(s = map.get("parentId")[0]).isEmpty())
+            bioClass.setParentId(Integer.parseInt(s));
+        else
+            bioClass.setParentId(null);
         bioSystem.addBioClass(bioClass);
         
         response.sendRedirect("main");

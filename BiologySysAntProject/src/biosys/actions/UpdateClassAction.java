@@ -22,7 +22,11 @@ public class UpdateClassAction implements Action {
         BioClass bioClass = new BioClass();
         bioClass.setId(Integer.parseInt(map.get("id")[0]));
         bioClass.setName(map.get("name")[0]);
-        bioClass.setParentId(map.get("parentId")[0]);
+        String s;
+        if (!(s = map.get("parentId")[0]).isEmpty())
+            bioClass.setParentId(Integer.parseInt(s));
+        else
+            bioClass.setParentId(null);
         bioSystem.updateBioClass(bioClass);
         response.sendRedirect("main");
     }

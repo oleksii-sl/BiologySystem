@@ -28,12 +28,12 @@ public class UpdateHandler extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Map<String, String[]> map = request.getParameterMap();
-        try {
-            factory.create(map.get("action")[0]).perform(request, response);
+    	Map<String, String[]> map = request.getParameterMap();
+    	try {
+			factory.create(map.get("action")[0]).perform(request, response);
         } catch (SQLException e) {
-            log.error(e);
-            throw new RuntimeException(e);
+        	log.error(e);
+        	throw new RuntimeException(e);
         }
     }
 

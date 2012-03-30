@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,16 +87,7 @@ public class DBBiosystem implements BiosystemDAO {
             pst = conn.prepareStatement(SQL_GET_ALIVE);
             pst.setInt(1, id);
             rs = pst.executeQuery();
-            rs.next();
-            alive = new Alive();
-            alive.setId(Integer.parseInt(rs.getString("id")));
-            alive.setName(rs.getString("name"));
-            alive.setNameLatin(rs.getString("name_latin"));
-            alive.setLifespan(Integer.parseInt(rs.getString("lifespan")));
-            alive.setAvgWeight(Double.parseDouble(rs.getString("avg_weight")));
-            alive.setNativeRange(rs.getString("native_range"));
-            alive.setPopulation(Long.parseLong(rs.getString("population")));
-            alive.setBioClass(Integer.parseInt(rs.getString("class")));
+            alive = handleAliveResultSet(rs).get(0);
         } finally {
             closeAll(conn, pst, rs);
         }
@@ -199,11 +191,7 @@ public class DBBiosystem implements BiosystemDAO {
             pst = conn.prepareStatement(SQL_GET_CLASS);
             pst.setInt(1, id);
             rs = pst.executeQuery();
-            rs.next();
-            bioClass = new BioClass();
-            bioClass.setId(Integer.parseInt(rs.getString("id")));
-            bioClass.setName(rs.getString("name"));
-            bioClass.setParentId(rs.getString("parent"));
+            bioClass = handleClassesResultSet(rs).get(0);
         } finally {
             closeAll(conn, pst, rs);
         }
@@ -217,7 +205,10 @@ public class DBBiosystem implements BiosystemDAO {
         try {
             pst = conn.prepareStatement(SQL_ADD_CLASS);
             pst.setString(1, bio.getName());
-            pst.setString(2, bio.getParentId());
+            if (bio.getParentId() == null)
+                pst.setNull(2, Types.NULL);
+            else
+                pst.setNull(2, bio.getParentId());
             pst.executeUpdate();
         } finally {
             closeAll(conn, pst, null);
@@ -231,7 +222,10 @@ public class DBBiosystem implements BiosystemDAO {
         try {
             pst = conn.prepareStatement(SQL_UPDATE_CLASS);
             pst.setString(1, bio.getName());
-            pst.setString(2, bio.getParentId());
+            if (bio.getParentId() == null)
+                pst.setNull(2, Types.NULL);
+            else
+                pst.setNull(2, bio.getParentId());
             pst.setInt(3, bio.getId());
             pst.executeUpdate();    
         } finally {
@@ -363,16 +357,16 @@ public class DBBiosystem implements BiosystemDAO {
     private List<Alive> handleAliveResultSet(ResultSet rs) throws NumberFormatException, SQLException {
         List<Alive> list = new ArrayList<Alive>();
         while(rs.next()) {
-            Alive temp = new Alive();
-            temp.setId(Integer.parseInt(rs.getString("id")));
-            temp.setName(rs.getString("name"));
-            temp.setNameLatin(rs.getString("name_latin"));
-            temp.setLifespan(Integer.parseInt(rs.getString("lifespan")));
-            temp.setAvgWeight(Double.parseDouble(rs.getString("avg_weight")));
-            temp.setNativeRange(rs.getString("native_range"));
-            temp.setPopulation(Long.parseLong(rs.getString("population")));
-            temp.setBioClass(Integer.parseInt(rs.getString("class")));
-            list.add(temp);
+            Alive alive = new Alive();
+            alive.setId(rs.getInt("id"));
+            alive.setName(rs.getString("name"));
+            alive.setNameLatin(rs.getString("name_latin"));
+            alive.setLifespan(rs.getInt("lifespan"));
+            alive.setAvgWeight(rs.getDouble("avg_weight"));
+            alive.setNativeRange(rs.getString("native_range"));
+            alive.setPopulation(rs.getLong("population"));
+            alive.setBioClass(rs.getInt("class"));
+            list.add(alive);
         }
         return list;
     }
@@ -383,7 +377,10 @@ public class DBBiosystem implements BiosystemDAO {
             BioClass temp = new BioClass();
             temp.setId(Integer.parseInt(rs.getString("id")));
             temp.setName(rs.getString("name"));
-            temp.setParentId(rs.getString("parent"));
+            if (rs.getInt("parent") == 0)
+                temp.setParentId(null);
+            else
+                temp.setParentId(rs.getInt("parent"));
             list.add(temp);
         }
         return list;
