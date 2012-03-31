@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Context>
+	<Resource name="connectInfo"
+	          auth="Container"
+              type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="alex"
+              driverClassName="oracle.jdbc.OracleDriver"
+              url="jdbc:oracle:thin:@//localhost:1521/xe"
+              password="oracle" 
+     /> 
+</Context>
