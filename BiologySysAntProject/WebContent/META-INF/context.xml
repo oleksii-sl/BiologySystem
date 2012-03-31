@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Context>
-	<Resource name="connectInfo"
-			  type="javax.sql.DataSource"
-			  username="alex"
-			  driverClassName="oracle.jdbc.OracleDriver"
-			  url="jdbc:oracle:thin:@//localhost:1521/xe"
-			  password="oracle" /> 
-</Context>
